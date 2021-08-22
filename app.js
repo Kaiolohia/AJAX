@@ -17,6 +17,4 @@ function createGif(url) {
     container.append(img)
 }
 
-$('#erase').on('click', (e) => {
-    $('#container').empty()
-})
+$('#erase').on('click', () => $('#container').empty())
