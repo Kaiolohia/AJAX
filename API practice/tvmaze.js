@@ -53,7 +53,7 @@ function populateShows(shows) {
              }"
              <h5 class="card-title">${show.name}</h5>
              <p class="card-text">${show.summary}</p>
-             <button class="btn btn-outline-info episode-list">Episode list</button>
+             <button type="button" class="btn btn-outline-info episode-list">Episode list</button>
            </div>
          </div>
        </div>
@@ -75,23 +75,20 @@ $("#search-form").on("submit", async function handleSearch(evt) {
   let query = $("#search-query").val();
   if (!query) return;
 
-  $("#episodes-area").hide();
-
   let shows = await searchShows(query);
 
   populateShows(shows);
 });
 
 function populateEpisodes(episodes) {
-  const $episodesList = $("#episodes-list")
-  $episodesList.empty()
+  const $modalBody = $(".modal-body")
+  $modalBody.empty()
   for(let episode of episodes) {
     let $item = $(
       `<li class="list-group-item">${episode.name} (Season: ${episode.season} | Episode: ${episode.number})</li>`
       )
-    $episodesList.append($item)
+    $modalBody.append($item)
   }
-  $("#episodes-area").show()
 }
 
 /** Given a show ID, return list of episodes:
@@ -116,4 +113,5 @@ async function getEpisodes(id) {
 $("#shows-list").on('click', '.episode-list', async (e) => {
   const episodes = await getEpisodes($(e.target).closest('.Show').data('show-id'))
   populateEpisodes(episodes)
+  $("#episodesModal").modal('show')
 })
